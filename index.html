@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#009AA8">
+<title>武汉地铁 8号线 · 下一趟</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23009AA8'/%3E%3Ctext x='32' y='45' font-size='38' font-family='Arial,sans-serif' font-weight='bold' fill='%23fff' text-anchor='middle'%3E8%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="hdr">
+    <div class="hdr-main">
+      <div class="line-badge"><span>8</span></div>
+      <div class="hdr-text">
+        <h1>武汉地铁 8号线</h1>
+        <p>编钟青 · 金潭路 ⇄ 军运村</p>
+      </div>
+    </div>
+    <div class="clock">
+      <span id="clock">--:--:--</span>
+      <span class="clock-day" id="clockDay">--</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 当前站点 -->
+    <section class="station-bar">
+      <button class="station-pick" id="stationBtn">
+        <span class="sp-label">当前站点</span>
+        <span class="sp-main">
+          <span class="sp-name" id="stationName">街道口</span>
+          <span class="sp-transfers" id="stationTransfers"></span>
+        </span>
+        <span class="sp-hint">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </button>
+      <button class="locate-btn" id="locateBtn" aria-label="定位最近站点">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3.2"/>
+          <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/>
+          <circle cx="12" cy="12" r="7.4" opacity=".35"/>
+        </svg>
+        <span>定位</span>
+      </button>
+    </section>
+
+    <p class="locate-note" id="locateNote" hidden></p>
+
+    <!-- 方向选择 -->
+    <div class="segs" role="tablist">
+      <button class="seg" data-dir="down" role="tab">
+        <span class="seg-dir">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          开往 军运村
+        </span>
+        <span class="seg-eta" data-eta="down">--</span>
+      </button>
+      <button class="seg" data-dir="up" role="tab">
+        <span class="seg-dir">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          开往 金潭路
+        </span>
+        <span class="seg-eta" data-eta="up">--</span>
+      </button>
+    </div>
+
+    <!-- 主看板 -->
+    <section class="board" id="board">
+      <div class="board-top">
+        <span class="status" id="status"><i></i>运营中</span>
+        <span class="board-toward" id="boardToward">开往 军运村</span>
+      </div>
+
+      <div class="count-wrap">
+        <div class="count" id="countdown">
+          <span class="cd-num" id="cdNum">--</span>
+          <span class="cd-unit" id="cdUnit">:--</span>
+        </div>
+        <div class="cd-caption" id="cdCaption">下一趟到站</div>
+      </div>
+
+      <!-- 列车行进轨道 -->
+      <div class="rail-wrap">
+        <div class="rail">
+          <div class="rail-track"></div>
+          <div class="rail-progress" id="railProgress"></div>
+          <div class="rail-dot" id="railDot"></div>
+        </div>
+        <div class="rail-labels">
+          <span id="prevLabel">上一班 --:--</span>
+          <span id="nextLabel">下一班 --:--</span>
+        </div>
+      </div>
+
+      <div class="board-foot">
+        <div class="foot-item">
+          <span class="fi-k">再下一趟</span>
+          <span class="fi-v" id="after1">--:--</span>
+        </div>
+        <div class="foot-item">
+          <span class="fi-k">第三趟</span>
+          <span class="fi-v" id="after2">--:--</span>
+        </div>
+        <div class="foot-item">
+          <span class="fi-k">到终点约</span>
+          <span class="fi-v" id="tripTime">--</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 全天时刻表 -->
+    <section class="panel">
+      <button class="panel-head" id="timetableToggle" aria-expanded="false">
+        <span>
+          <b>全天发车时刻</b>
+          <em id="ttMeta">--</em>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="panel-body" id="timetableBody" hidden>
+        <div class="tt-scroll" id="ttScroll">
+          <div class="tt-grid" id="ttGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 参数与说明 -->
+    <section class="panel">
+      <button class="panel-head" id="infoToggle" aria-expanded="false">
+        <span><b>数据说明与校准</b></span>
+        <svg class="chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="panel-body" id="infoBody" hidden>
+        <p class="info-p">
+          发车时刻依据武汉地铁集团公布的<strong>各站首末班车时间</strong>与<strong>行车间隔</strong>推算得出：
+          两端起点站首班 6:00（休息日 6:30）、末班 23:00，工作日高峰最小间隔约 4.8 分钟，
+          休息日约 6.3 分钟。未包含临时加开、小交路及节假日专项方案，请以车站实际广播为准。
+        </p>
+        <div class="calib">
+          <span class="calib-k">整体校准</span>
+          <button class="calib-btn" data-set="-30">−30s</button>
+          <button class="calib-btn" data-set="-10">−10s</button>
+          <span class="calib-val" id="calibVal">0 秒</span>
+          <button class="calib-btn" data-set="10">+10s</button>
+          <button class="calib-btn" data-set="30">+30s</button>
+          <button class="calib-btn calib-reset" data-set="0">重置</button>
+        </div>
+        <p class="info-tip">若站台显示屏显示的时刻普遍偏早或偏晚，可在此整体校准。</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>时刻表数据：武汉地铁集团官网 · 车站坐标：OpenStreetMap 实测</p>
+    </footer>
+
+  </main>
+</div>
+
+<!-- 站点选择弹层 -->
+<div class="sheet-mask" id="sheetMask" hidden>
+  <div class="sheet" id="sheet">
+    <div class="sheet-head">
+      <div class="sheet-grab"></div>
+      <h2>选择站点</h2>
+      <input type="search" id="stationSearch" placeholder="搜索站名，如 街道口" autocomplete="off">
+    </div>
+    <div class="sheet-list" id="stationList"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

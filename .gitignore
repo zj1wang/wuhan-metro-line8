@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# 本地临时文件
+_*.html
+_*.png
+_prof/
+certs/

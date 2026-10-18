@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    image: wuhan-metro-line8:latest
+    container_name: wuhan-metro-line8
+    ports:
+      - "8788:8788"
+    environment:
+      PORT: 8788
+      HOST: 0.0.0.0
+    restart: unless-stopped

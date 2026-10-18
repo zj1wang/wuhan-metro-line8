@@ -1,0 +1,37 @@
+{
+  "name": "wuhan-metro-line8",
+  "version": "1.0.0",
+  "description": "武汉地铁 8 号线「下一趟」查询：站点选择、双向倒计时、全天时刻表，纯前端 + 零依赖 Node 静态服务",
+  "keywords": [
+    "wuhan",
+    "metro",
+    "subway",
+    "timetable",
+    "line8",
+    "武汉地铁"
+  ],
+  "license": "MIT",
+  "author": "zhiheng.wang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zj1wang/wuhan-metro-line8.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zj1wang/wuhan-metro-line8/issues"
+  },
+  "homepage": "https://github.com/zj1wang/wuhan-metro-line8",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "files": [
+    "index.html",
+    "style.css",
+    "app.js",
+    "data.js",
+    "server.js"
+  ]
+}
