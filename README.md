@@ -1,5 +1,8 @@
 # 武汉地铁 8号线 · 下一趟
 
+[![CI](https://github.com/zj1wang/wuhan-metro-line8/actions/workflows/ci.yml/badge.svg)](https://github.com/zj1wang/wuhan-metro-line8/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-009AA8.svg)](LICENSE)
+
 一个轻量的网页，用来看武汉地铁 8 号线某站**下一趟车还有多久到**。纯静态页面 + 一个只用 Node 内置模块的静态服务器，没有构建步骤、没有第三方依赖。
 
 - 26 个站点按线路顺序排列，标注换乘线路
