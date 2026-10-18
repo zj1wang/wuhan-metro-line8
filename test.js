@@ -1,6 +1,7 @@
 /** 边界时刻离线校验（复用 app.js 的推算逻辑） */
+const path = require('path');
 global.window = {};
-require('C:/Users/Administrator/code/wuhan-metro-line8/data.js');
+require(path.join(__dirname, 'data.js'));
 const LINE = global.window.LINE8;
 const ST = LINE.stations;
 const N = ST.length;
