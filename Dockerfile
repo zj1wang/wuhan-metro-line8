@@ -10,6 +10,10 @@ ENV NODE_ENV=production \
 COPY package.json ./
 COPY index.html style.css app.js data.js server.js ./
 
+# 兜底：源文件若带 700 之类的权限会被 COPY 原样带入镜像，
+# 而非 root 的 node 用户将无法读取，这里统一放宽为可读
+RUN chmod -R a+rX /app
+
 EXPOSE 8788
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
